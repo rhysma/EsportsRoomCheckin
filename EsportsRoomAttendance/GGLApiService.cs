@@ -20,7 +20,7 @@ namespace EsportsRoomAttendance
             _authToken = authToken;
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://api.ggleap.com/beta/")
+                //BaseAddress = new Uri("https://api.ggleap.com/beta/")
             };
         }
 
@@ -62,7 +62,7 @@ namespace EsportsRoomAttendance
         /// <returns></returns>
         public async Task<bool> AuthenticateAsync()
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "/authorization/public-api/auth")
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://api.ggleap.com/beta/authorization/public-api/auth")
             {
                 Content = new StringContent($"{{\"AuthToken\": \"{_authToken}\"}}", System.Text.Encoding.UTF8, "application/json")
             };
@@ -71,12 +71,30 @@ namespace EsportsRoomAttendance
             if (response.IsSuccessStatusCode)
             {
                 var responseBody = await response.Content.ReadAsStringAsync();
+
+                // Parse JSON and retrieve the JWT token
                 var json = JObject.Parse(responseBody);
-                _jwtToken = json["token"].ToString();
-                _tokenExpiryTime = DateTime.UtcNow.AddMinutes(10);
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
-                return true;
+                if (json["Jwt"] != null)
+                {
+                    _jwtToken = json["Jwt"].ToString();
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
+                    return true;
+                }
+                else
+                {
+                    // Log the full response if "Jwt" is missing
+                    Console.WriteLine("JWT token not found in response.");
+                    Console.WriteLine("Response: " + responseBody);
+                }
             }
+            else
+            {
+                // Log error status and reason for failed request
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Response: " + errorResponse);
+            }
+
             return false;
         }
 
