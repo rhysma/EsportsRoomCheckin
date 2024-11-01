@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "LUSWxKBhJ7M=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rhysm\\source\\repos\\EsportsRoomCheckin\\EsportsRoomAttendance\\EsportsRoomAttendance.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rhysm\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

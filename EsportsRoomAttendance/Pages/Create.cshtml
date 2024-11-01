@@ -1,0 +1,30 @@
+﻿@page
+@model EsportsRoomAttendance.Pages.CreateModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upsert User</title>
+</head>
+<body>
+    <form asp-action="UpsertUser" asp-controller="User" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="Username" maxlength="30" required />
+        <br />
+
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="FirstName" maxlength="30" required />
+        <br />
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="LastName" maxlength="30" required />
+        <br />
+
+        <label for="uuid">UUID (optional for updates):</label>
+        <input type="text" id="uuid" name="Uuid" />
+        <br />
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
